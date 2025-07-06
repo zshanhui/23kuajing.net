@@ -29,13 +29,7 @@ const Alert = ({ preview }: Props) => {
             </>
           ) : (
             <>
-              The source code for this blog is{" "}
-              <a
-                href={`https://github.com/vercel/next.js/tree/canary/examples/${EXAMPLE_PATH}`}
-                className="underline hover:text-blue-600 duration-200 transition-colors"
-              >
-                available on GitHub
-              </a>
+              23Kuajing.net is looking to partner with more manufacturers, farms, and trading companies, check out: <a href='/partnerships' className='underline text-blue-400'>Partnerships</a>
               .
             </>
           )}

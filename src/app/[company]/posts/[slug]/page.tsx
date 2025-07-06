@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getAllFrontPagePosts, get23KuajingPostBySlug } from "@/lib/api";
+import { getSubCompaniesPagePosts, getPostByCompanyAndSlug, Companies } from "@/lib/api";
 import { CMS_NAME } from "@/lib/constants";
 import markdownToHtml from "@/lib/markdownToHtml";
 import Alert from "@/app/_components/alert";
@@ -11,7 +11,14 @@ import { PostHeader } from "@/app/_components/post-header";
 
 export default async function Post(props: Params) {
   const params = await props.params;
-  const post = get23KuajingPostBySlug(params.slug);
+
+  let post = null;
+  try {
+    post = getPostByCompanyAndSlug(params.company, params.slug);
+  } catch (err) {
+    console.error(err)
+    return notFound();
+  }
 
   if (!post) {
     return notFound();
@@ -41,20 +48,13 @@ export default async function Post(props: Params) {
 type Params = {
   params: Promise<{
     slug: string;
+    company: string;
   }>;
 };
 
 export async function generateMetadata(props: Params): Promise<Metadata> {
   const params = await props.params;
-
-  let post = null;
-  try {
-    post = get23KuajingPostBySlug(params.slug);
-  } catch (err) {
-    console.error(err)
-    return notFound();
-  }
-
+  const post = getPostByCompanyAndSlug(params.company, params.slug);
 
   if (!post) {
     return notFound();
@@ -72,7 +72,8 @@ export async function generateMetadata(props: Params): Promise<Metadata> {
 }
 
 export async function generateStaticParams() {
-  const posts = getAllFrontPagePosts();
+  // TODO replace with dynamic company
+  const posts = getSubCompaniesPagePosts(Companies.FujianIncaCoffeeTrading);
 
   return posts.map((post) => ({
     slug: post.slug,
