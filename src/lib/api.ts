@@ -23,7 +23,6 @@ export function getFujianIncaCoffeeTradingPostBySlug(slug: string) {
   return getPostByCompanyAndSlug(Companies.FujianIncaCoffeeTrading, slug)
 }
 
-
 export function getPostByCompanyAndSlug(company: string, slug: string) {
   const realSlug = slug.replace(/\.md$/, "");
   const fullPath = join(postsDirectory, company, `${realSlug}.md`);

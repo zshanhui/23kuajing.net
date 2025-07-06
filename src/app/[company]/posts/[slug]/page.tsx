@@ -9,17 +9,25 @@ import Header from "@/app/_components/header";
 import { PostBody } from "@/app/_components/post-body";
 import { PostHeader } from "@/app/_components/post-header";
 
+function findCompanyPost(params: any) {
+  let post = null;
+  try {
+    let companySlug = params.company;
+    if (params.company === 'coffee') {
+      companySlug = Companies.FujianIncaCoffeeTrading
+    }
+    post = getPostByCompanyAndSlug(companySlug, params.slug);
+  } catch (err) {
+    console.error(err)
+    return null;
+  }
+  return post
+}
+
 export default async function Post(props: Params) {
   const params = await props.params;
 
-  let post = null;
-  try {
-    post = getPostByCompanyAndSlug(params.company, params.slug);
-  } catch (err) {
-    console.error(err)
-    return notFound();
-  }
-
+  let post = findCompanyPost(params);
   if (!post) {
     return notFound();
   }
@@ -54,7 +62,7 @@ type Params = {
 
 export async function generateMetadata(props: Params): Promise<Metadata> {
   const params = await props.params;
-  const post = getPostByCompanyAndSlug(params.company, params.slug);
+  let post = findCompanyPost(params);
 
   if (!post) {
     return notFound();
