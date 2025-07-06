@@ -16,16 +16,6 @@ export enum Companies {
 }
 
 export function get23KuajingPostBySlug(slug: string) {
-  // const realSlug = slug.replace(/\.md$/, "");
-  // const testPath = join(postsDirectory, `${realSlug}`);
-  // if (!fs.existsSync(testPath) || !fs.lstatSync(testPath).isFile()) {
-  //   throw new Error(`${testPath} does not exist or is not a file`);
-  // } else {
-  //   const fullFilePath = join(postsDirectory, `${realSlug}.md`);
-  //   const fileContents = fs.readFileSync(fullFilePath, "utf8");
-  //   const { data, content } = matter(fileContents);
-
-  //   return { ...data, slug: realSlug, content } as Post;
   return getPostByCompanyAndSlug(Companies.ErsanKuajingNet, slug)
 }
 
@@ -48,20 +38,18 @@ export function getPostByCompanyAndSlug(company: string, slug: string) {
 
 export function getAllFrontPagePosts(): Post[] {
   const slugs = getPostSlugs(Companies.ErsanKuajingNet);
-  console.log('all post slugs >> ', slugs)
   const posts = slugs
     .map((slug) => get23KuajingPostBySlug(slug))
     // sort posts by date in descending order
-    .sort((post1, post2) => (post1.date > post2.date ? -1 : 1));
-  return posts;
+    .sort((post1, post2) => (post1!.date > post2!.date ? -1 : 1));
+  return posts.filter((post): post is Post => post !== null);
 }
 
 export function getSubCompaniesPagePosts(company: Companies): Post[] {
   const slugs = getPostSlugs(company);
-  console.log('all post slugs >> ', slugs)
   const posts = slugs
     .map((slug) => getPostByCompanyAndSlug(company, slug))
     // sort posts by date in descending order
-    .sort((post1, post2) => (post1.date > post2.date ? -1 : 1));
-  return posts;
+    .sort((post1, post2) => (post1!.date > post2!.date ? -1 : 1));
+  return posts.filter((post): post is Post => post !== null);
 }
