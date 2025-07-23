@@ -9,7 +9,7 @@ type Props = {
 const Alert = ({ preview }: Props) => {
   return (
     <div
-      className={cn("border-b dark:bg-slate-800", {
+      className={cn("border-b bg-slate-800", {
         "bg-neutral-800 border-neutral-800 text-white": preview,
         "bg-neutral-50 border-neutral-200": !preview,
       })}
@@ -29,7 +29,11 @@ const Alert = ({ preview }: Props) => {
             </>
           ) : (
             <>
-              23Kuajing.net is looking to partner with more manufacturers, farms, and trading companies, check out: <a href='/partnerships' className='underline text-blue-400'>Partnerships</a>
+              23Kuajing.net is looking to partner with more manufacturers,
+              farms, and trading companies, check out:{" "}
+              <a href="/partnerships" className="underline text-blue-400">
+                Partnerships
+              </a>
               .
             </>
           )}
